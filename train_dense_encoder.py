@@ -227,13 +227,20 @@ class BiEncoderTrainer(object):
                 validation_loss = self.validate_nll()
 
         if save_cp:
-            cp_name = self._save_checkpoint(scheduler, epoch, iteration)
-            logger.info("Saved checkpoint to %s", cp_name)
-
             if validation_loss < (self.best_validation_result or validation_loss + 1):
+                cp_name = self._save_checkpoint(scheduler, epoch, iteration)
+                logger.info("Saved checkpoint to %s", cp_name)
+
                 self.best_validation_result = validation_loss
                 self.best_cp_name = cp_name
                 logger.info("New Best validation checkpoint %s", cp_name)
+
+                # Save HF pretrained model weights
+                best_model = get_model_obj(self.biencoder)
+                best_model.question_model.save_pretrained(os.path.join(cfg.output_dir, "best_model/question"))
+                best_model.ctx_model.save_pretrained(os.path.join(cfg.output_dir, "best_model/context"))
+                logger.info("New Best HF weights: $s", os.path.join(cfg.output_dir, "best_model"))
+
 
     def validate_nll(self) -> float:
         logger.info("NLL validation ...")
