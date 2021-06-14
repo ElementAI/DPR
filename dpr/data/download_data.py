@@ -436,7 +436,7 @@ def download_resource(
     logger.info("Download root_dir %s", root_dir)
 
     save_root = os.path.join(
-        root_dir, "downloads", *path_names[:-1]
+        root_dir, "data/dpr", *path_names[:-1]
     )  # last segment is for file name
 
     pathlib.Path(save_root).mkdir(parents=True, exist_ok=True)

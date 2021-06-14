@@ -31,7 +31,8 @@ def set_cfg_params_from_state(state: dict, cfg: DictConfig):
     if not state:
         return
     cfg.do_lower_case = state["do_lower_case"]
-    cfg.encoder.pretrained_model_cfg = state["pretrained_model_cfg"]
+    cfg.encoder.pretrained_question_model_cfg = state["pretrained_question_model_cfg"]
+    cfg.encoder.pretrained_context_model_cfg = state["pretrained_context_model_cfg"]
     cfg.encoder.encoder_model_type = state["encoder_model_type"]
     cfg.encoder.pretrained_file = state["pretrained_file"]
     cfg.encoder.projection_dim = state["projection_dim"]
@@ -46,7 +47,8 @@ def get_encoder_params_state_from_cfg(cfg: DictConfig):
     """
     return {
         "do_lower_case": cfg.do_lower_case,
-        "pretrained_model_cfg": cfg.encoder.pretrained_model_cfg,
+        "pretrained_question_model_cfg": cfg.encoder.pretrained_question_model_cfg,
+        "pretrained_context_model_cfg": cfg.encoder.pretrained_context_model_cfg,
         "encoder_model_type": cfg.encoder.encoder_model_type,
         "pretrained_file": cfg.encoder.pretrained_file,
         "projection_dim": cfg.encoder.projection_dim,

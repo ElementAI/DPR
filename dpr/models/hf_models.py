@@ -15,10 +15,9 @@ from typing import Tuple
 import torch
 from torch import Tensor as T
 from torch import nn
-from transformers.modeling_bert import BertConfig, BertModel
+from transformers import BertConfig, BertModel
 from transformers.optimization import AdamW
-from transformers.tokenization_bert import BertTokenizer
-from transformers.tokenization_roberta import RobertaTokenizer
+from transformers import BertTokenizer, RobertaTokenizer
 
 from dpr.models.biencoder import BiEncoder
 from dpr.utils.data_utils import Tensorizer
@@ -30,14 +29,14 @@ logger = logging.getLogger(__name__)
 def get_bert_biencoder_components(cfg, inference_only: bool = False, **kwargs):
     dropout = cfg.encoder.dropout if hasattr(cfg.encoder, "dropout") else 0.0
     question_encoder = HFBertEncoder.init_encoder(
-        cfg.encoder.pretrained_model_cfg,
+        cfg.encoder.pretrained_question_model_cfg,
         projection_dim=cfg.encoder.projection_dim,
         dropout=dropout,
         pretrained=cfg.encoder.pretrained,
         **kwargs
     )
     ctx_encoder = HFBertEncoder.init_encoder(
-        cfg.encoder.pretrained_model_cfg,
+        cfg.encoder.pretrained_context_model_cfg,
         projection_dim=cfg.encoder.projection_dim,
         dropout=dropout,
         pretrained=cfg.encoder.pretrained,
@@ -95,7 +94,7 @@ def get_bert_reader_components(cfg, inference_only: bool = False, **kwargs):
 
 def get_bert_tensorizer(cfg, tokenizer=None):
     sequence_length = cfg.encoder.sequence_length
-    pretrained_model_cfg = cfg.encoder.pretrained_model_cfg
+    pretrained_model_cfg = cfg.encoder.pretrained_question_model_cfg
 
     if not tokenizer:
         tokenizer = get_bert_tokenizer(
