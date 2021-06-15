@@ -13,7 +13,6 @@ import torch
 from omegaconf import DictConfig
 from torch import Tensor as T
 
-from dpr.data.tables import Table
 from dpr.utils.data_utils import read_data_from_json_files, Tensorizer
 
 logger = logging.getLogger(__name__)

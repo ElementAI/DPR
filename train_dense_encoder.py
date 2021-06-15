@@ -239,7 +239,7 @@ class BiEncoderTrainer(object):
                 best_model = get_model_obj(self.biencoder)
                 best_model.question_model.save_pretrained(os.path.join(cfg.output_dir, "best_model/question"))
                 best_model.ctx_model.save_pretrained(os.path.join(cfg.output_dir, "best_model/context"))
-                logger.info("New Best HF weights: $s", os.path.join(cfg.output_dir, "best_model"))
+                logger.info("New Best HF weights: %s", os.path.join(cfg.output_dir, "best_model"))
 
 
     def validate_nll(self) -> float:
